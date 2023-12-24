@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">TaskApp</string>
+    <string name="app_bar">Tasktree</string>
+    <string name="notif_button">NotifButton</string>
+    <string name="active_tasks">Active Tasks</string>
+    <plurals name="count_tasks">
+        <item quantity="one">%d Task.</item>
+        <item quantity="other">%d Tasks.</item>
+    </plurals>
+</resources>
