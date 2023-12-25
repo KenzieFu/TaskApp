@@ -3,6 +3,7 @@ package com.example.taskapp
 import android.graphics.drawable.Icon
 import android.util.Log
 import androidx.annotation.StringRes
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -48,6 +49,9 @@ import com.example.taskapp.ui.util.TaskItemCard
 enum class TaskScreen(@StringRes val title :Int?){
     TaskHomeScreen(title = R.string.app_bar),
     TaskSearchScreen(title = null),
+    TaskDetailScreen(title = R.string.detail_screen),
+    CreateTaskScreen(title=R.string.create_screen),
+    EditTaskScreen(title=R.string.create_screen)
 
 }
 
@@ -62,6 +66,7 @@ enum class TaskScreen(@StringRes val title :Int?){
     )
     Scaffold(
         topBar ={ TopTaskBar(
+            navigateToCreate={navController.navigate(TaskScreen.CreateTaskScreen.name)},
             current=currentRoute,
             navigateUp={navController.navigateUp()},
             canNavigateUp = navController.previousBackStackEntry !=null,
@@ -70,14 +75,29 @@ enum class TaskScreen(@StringRes val title :Int?){
             else
             Modifier.fillMaxWidth()
         )}
+
     ) {pad->
         NavHost(navController = navController,
             startDestination = TaskScreen.TaskHomeScreen.name ){
            composable(TaskScreen.TaskHomeScreen.name){
-               TaskHomeScreen(navController=navController,modifier = Modifier.padding(pad))
+               TaskHomeScreen(
+                   navigateToSearch = {navController.navigate(TaskScreen.TaskSearchScreen.name)},
+                   clickItemDetail = {navController.navigate(TaskScreen.TaskDetailScreen.name)},
+                   modifier = Modifier.padding(pad))
            }
             composable(TaskScreen.TaskSearchScreen.name){
-                SearchTaskScreen(modifier = Modifier.padding(pad))
+                SearchTaskScreen(
+                    clickItemDetail = {navController.navigate(TaskScreen.TaskDetailScreen.name)},
+                    modifier = Modifier.padding(pad))
+            }
+            composable(TaskScreen.TaskDetailScreen.name){
+                TaskDetailScreen(modifier = Modifier.padding(pad))
+            }
+            composable(TaskScreen.CreateTaskScreen.name){
+                CreateScreen(navigateUp = {navController.navigateUp()}, modifier = Modifier.padding(pad))
+            }
+            composable(TaskScreen.EditTaskScreen.name){
+                EditScreen(navigateUp = {navController.navigateUp()}, modifier = Modifier.padding(pad))
             }
         }
 
@@ -88,8 +108,11 @@ enum class TaskScreen(@StringRes val title :Int?){
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TopTaskBar(modifier: Modifier,navigateUp:()->Unit,
-                       canNavigateUp:Boolean,current:TaskScreen){
+private fun TopTaskBar(navigateToCreate:()->Unit,
+                       modifier: Modifier,
+                       navigateUp:()->Unit,
+                       canNavigateUp:Boolean,
+                       current:TaskScreen){
 
     TopAppBar(
         modifier = if(current == TaskScreen.TaskHomeScreen)modifier
@@ -118,7 +141,7 @@ private fun TopTaskBar(modifier: Modifier,navigateUp:()->Unit,
         actions = {
             Row {
                 if(!canNavigateUp)
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { navigateToCreate() }) {
                     Icon(
                         modifier = Modifier.size(36.dp),
                         tint = Color.Black,
@@ -142,14 +165,18 @@ private fun TopTaskBar(modifier: Modifier,navigateUp:()->Unit,
 }
 
 @Composable
-private fun TaskHomeScreen(navController: NavController,modifier: Modifier){
+private fun TaskHomeScreen(
+    navigateToSearch:()->Unit,
+    clickItemDetail:()->Unit,
+
+    modifier: Modifier){
     Column(modifier = modifier
         .padding(20.dp, 15.dp)
         .fillMaxHeight()) {
          SearchBar(onClick={
-             Log.d("Hi","Hi")
-             navController.navigate(TaskScreen.TaskSearchScreen.name)
-         },inputKey = "halo", modifier = Modifier
+
+            navigateToSearch()
+         },inputKey = "Search for tasks", modifier = Modifier
              .fillMaxWidth()
              .padding(0.dp, 5.dp))
         Spacer(modifier = Modifier.height(20.dp))
@@ -168,7 +195,8 @@ private fun TaskHomeScreen(navController: NavController,modifier: Modifier){
             items(3){
                 TaskItemCard(modifier = Modifier
                     .fillMaxWidth()
-                    .height(110.dp))
+                    .height(110.dp)
+                    .clickable { clickItemDetail() })
             }
         }
 
@@ -198,5 +226,5 @@ fun TaskCardSection(){
 @Preview(showBackground = true)
 @Composable
 private fun TaskAppPreview(){
-    TaskApp(modifier= Modifier.fillMaxSize())
+    TaskApp( modifier= Modifier.fillMaxSize())
 }

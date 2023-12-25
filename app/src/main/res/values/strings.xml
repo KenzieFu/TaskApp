@@ -6,7 +6,10 @@
     <string name="urgent_tasks">Urgent Tasks</string>
     <string name="list_of_tasks">List of Tasks</string>
     <string name="search_screen">Search</string>
+    <string name="detail_screen">Task Detail</string>
     <string name="back_button">Back</string>
+    <string name="create_screen">Create Task</string>
+    <string name="edit_screen">Edit Task</string>
     <plurals name="count_tasks">
         <item quantity="one">%d Task.</item>
         <item quantity="other">%d Tasks.</item>
