@@ -31,6 +31,7 @@ import com.example.taskapp.model.TaskType
 @Composable
 fun TaskCard(cardType:TaskType,count:Int,modifier: Modifier=Modifier){
     val color : Int = if(cardType == TaskType.Regular ) R.color.pale_orange else R.color.reddish
+    val text : Int = if(cardType == TaskType.Regular ) R.string.active_tasks else R.string.urgent_tasks
     Card(modifier=modifier) {
         Column(modifier= Modifier
             .background(colorResource(color))
@@ -38,10 +39,10 @@ fun TaskCard(cardType:TaskType,count:Int,modifier: Modifier=Modifier){
             .padding(10.dp, 15.dp),
             verticalArrangement = Arrangement.SpaceBetween) {
             Text(
-                stringResource(R.string.active_tasks),
+                stringResource(text),
                 fontWeight = FontWeight.Bold,
-                fontSize = 32.sp,
-                lineHeight = 27.sp
+                fontSize = 24.sp,
+                lineHeight = 23.sp
 
 
             )
@@ -59,7 +60,7 @@ fun CountTask(count:Int,modifier: Modifier){
     val text :String = pluralStringResource(R.plurals.count_tasks, count =count,count )
     Card(modifier = modifier) {
         Row(
-            modifier = Modifier.padding(8.dp),
+            modifier = Modifier.padding(6.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
             ) {
@@ -72,7 +73,7 @@ fun CountTask(count:Int,modifier: Modifier){
             Spacer(modifier = Modifier.width(5.dp))
             Text(
                 text = text,
-                fontSize = 20.sp,
+                fontSize = 16.sp,
                 fontWeight = FontWeight.Bold
             )
         }

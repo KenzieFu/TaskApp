@@ -3,6 +3,10 @@
     <string name="app_bar">Tasktree</string>
     <string name="notif_button">NotifButton</string>
     <string name="active_tasks">Active Tasks</string>
+    <string name="urgent_tasks">Urgent Tasks</string>
+    <string name="list_of_tasks">List of Tasks</string>
+    <string name="search_screen">Search</string>
+    <string name="back_button">Back</string>
     <plurals name="count_tasks">
         <item quantity="one">%d Task.</item>
         <item quantity="other">%d Tasks.</item>

@@ -36,7 +36,7 @@ fun TaskItemCard(modifier: Modifier){
             ) {
             Text(
                 text = "Attend Party",
-                fontSize = 26.sp,
+                fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
                 )
             TimeTask(time = "12:00",Modifier)
@@ -63,7 +63,7 @@ fun TimeTask(time:String,modifier: Modifier){
             Spacer(modifier = Modifier.width(5.dp))
             Text(
                 time,
-                fontSize = 20.sp,
+                fontSize = 16.sp,
                 fontWeight = FontWeight.Bold
             )
         }
