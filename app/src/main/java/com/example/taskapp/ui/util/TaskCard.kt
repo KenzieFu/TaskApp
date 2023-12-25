@@ -39,8 +39,10 @@ fun TaskCard(cardType:TaskType,count:Int,modifier: Modifier=Modifier){
             verticalArrangement = Arrangement.SpaceBetween) {
             Text(
                 stringResource(R.string.active_tasks),
-                fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
+                fontSize = 32.sp,
+                lineHeight = 27.sp
+
 
             )
             CountTask(count=count,modifier = Modifier.width(140.dp))

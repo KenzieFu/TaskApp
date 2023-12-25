@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 
@@ -31,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import com.example.taskapp.model.TaskType
 import com.example.taskapp.ui.util.SearchBar
 import com.example.taskapp.ui.util.TaskCard
+import com.example.taskapp.ui.util.TaskItemCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -90,9 +92,21 @@ private fun TaskHomeScreen(modifier: Modifier){
         Spacer(modifier = Modifier.height(20.dp))
         Text(
             text = "Today Tasks",
-            fontSize = 32.sp,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            fontSize = 36.sp,
+
             )
+        Spacer(modifier = Modifier.height(20.dp))
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(15.dp)
+        ){
+            items(3){
+                TaskItemCard(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(130.dp))
+            }
+        }
+
 
 
     }
@@ -101,7 +115,7 @@ private fun TaskHomeScreen(modifier: Modifier){
 @Composable
 fun TaskCardSection(){
     Column(
-        modifier=Modifier.height(180.dp)
+        modifier=Modifier.height(160.dp)
     ){
         Row(
             modifier= Modifier.fillMaxHeight(),

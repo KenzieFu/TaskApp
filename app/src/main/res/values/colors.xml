@@ -8,5 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="pale_orange">#FFD369</color>
-    <color name="reddish">#FF1E00</color>
+    <color name="reddish">#FF8080</color>
+    <color name="aqua">#C7F5FE</color>
 </resources>

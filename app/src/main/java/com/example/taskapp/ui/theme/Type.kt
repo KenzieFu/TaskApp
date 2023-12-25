@@ -13,7 +13,7 @@ import com.example.taskapp.R
 //1.Nunito
 val Nunito = FontFamily(
     Font(R.font.nunito_regular),
-    Font(R.font.nunito_regular,FontWeight.Bold)
+    Font(R.font.nunito_bold,FontWeight.Bold)
 )
 
 
