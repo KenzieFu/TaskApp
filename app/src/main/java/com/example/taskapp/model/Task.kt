@@ -8,7 +8,7 @@ enum class TaskType{
 data class Task(
     val id :Int,
     val title: String,
-    val content : String,
+    val description : String,
     val date : String,
-    val taskType :TaskType,
+    val type :String
 )

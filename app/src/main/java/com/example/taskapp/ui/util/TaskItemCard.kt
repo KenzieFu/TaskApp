@@ -25,9 +25,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.taskapp.model.Task
 
 @Composable
-fun TaskItemCard(modifier: Modifier){
+fun TaskItemCard(task: Task, modifier: Modifier){
     Card(modifier=modifier) {
         Column(modifier= modifier
             .background(colorResource(R.color.aqua))
@@ -35,11 +36,11 @@ fun TaskItemCard(modifier: Modifier){
             verticalArrangement = Arrangement.SpaceBetween
             ) {
             Text(
-                text = "Attend Party",
+                text = task.title,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
                 )
-            TimeTask(time = "12:00",Modifier)
+            TimeTask(time = task.date.substring(11,16),Modifier)
         }
 
         
@@ -70,10 +71,10 @@ fun TimeTask(time:String,modifier: Modifier){
     }
 }
 
-@Preview
-@Composable
-fun TaskItemCardPreview(){
-    TaskItemCard(modifier= Modifier
-        .fillMaxWidth()
-        .height(130.dp))
-}
+//@Preview
+//@Composable
+//fun TaskItemCardPreview(){
+//    TaskItemCard(modifier= Modifier
+//        .fillMaxWidth()
+//        .height(130.dp))
+//}

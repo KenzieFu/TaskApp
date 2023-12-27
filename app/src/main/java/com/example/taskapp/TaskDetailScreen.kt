@@ -34,11 +34,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.taskapp.model.Task
 
 import com.example.taskapp.ui.util.BoxInfo
 
 @Composable
-fun TaskDetailScreen(modifier:Modifier){
+fun TaskDetailScreen(deleteTask:()->Unit,navigateToEdit:(String)->Unit,task: Task?, modifier:Modifier){
     Column(
         modifier=modifier
             .background(colorResource(R.color.pale_orange))
@@ -49,12 +50,12 @@ fun TaskDetailScreen(modifier:Modifier){
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
-            Text("Attend Party",
+            Text(task!!.title,
                 fontWeight = FontWeight.Bold,
                 fontSize = 26.sp,
                 )
             IconButton(
-                onClick = { /*TODO*/ },
+                onClick = { navigateToEdit(task.id.toString()) },
 
                 ) {
                 Icon(
@@ -67,13 +68,13 @@ fun TaskDetailScreen(modifier:Modifier){
         Spacer(modifier = Modifier.height(10.dp))
 
         Row {
-            BoxInfo(content = "10:00", icon = R.drawable.clock, modifier =Modifier )
+            BoxInfo(content = task!!.date.substring(11,16), icon = R.drawable.clock, modifier =Modifier )
             Spacer(modifier = Modifier.width(10.dp))
-            BoxInfo(content = "21-12-23", icon =R.drawable.date , modifier =Modifier )
+            BoxInfo(content = task.date.substring(0,10), icon =R.drawable.date , modifier =Modifier )
         }
         Spacer(modifier = Modifier.height(10.dp))
       TextButton(
-          onClick = { /*TODO*/ },
+          onClick = { deleteTask() },
           modifier = Modifier
               .clip(RoundedCornerShape(10.dp))
               .background(Color.Red),
@@ -102,22 +103,21 @@ fun TaskDetailScreen(modifier:Modifier){
                 .background(Color.White)
                 .padding(15.dp),
         ) {
-            Text(
-                "Hello",
+            Text(task!!.description,
                 fontSize = 16.sp
             )
         }
     }
 }
-
-@Preview
-@Composable
-fun TaskDetailPreview() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(colorResource(R.color.pale_orange))
-    ) {
-        TaskDetailScreen(modifier=Modifier .padding(20.dp, 15.dp))
-    }
-}
+//
+//@Preview
+//@Composable
+//fun TaskDetailPreview() {
+//    Column(
+//        modifier = Modifier
+//            .fillMaxSize()
+//            .background(colorResource(R.color.pale_orange))
+//    ) {
+//        TaskDetailScreen(modifier=Modifier .padding(20.dp, 15.dp))
+//    }
+//}

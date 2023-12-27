@@ -31,8 +31,8 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchBar(onClick:(()->Unit)?,inputKey:String,modifier: Modifier){
-    var inputKey by remember { mutableStateOf("") }
+fun SearchBar(onClick:(()->Unit)?,onChange:(String?)->Unit,inputKey:String,modifier: Modifier){
+
     Column(
         modifier=if(onClick!=null)modifier.clickable { onClick() }else modifier,
     ){
@@ -52,7 +52,7 @@ fun SearchBar(onClick:(()->Unit)?,inputKey:String,modifier: Modifier){
 
                 value = inputKey,
                 onValueChange ={value->
-                    inputKey=value
+                    onChange(value)
                 },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                 modifier = Modifier
@@ -68,14 +68,14 @@ fun SearchBar(onClick:(()->Unit)?,inputKey:String,modifier: Modifier){
 
 }
 
-@Preview(showBackground = true)
-@Composable
-fun SearchBarPreview(){
-    Surface(modifier = Modifier.fillMaxSize()) {
-        Column(modifier =Modifier) {
-            SearchBar(onClick ={}, inputKey = "H", modifier = Modifier.fillMaxWidth())
-        }
-
-    }
-
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun SearchBarPreview(){
+//    Surface(modifier = Modifier.fillMaxSize()) {
+//        Column(modifier =Modifier) {
+//            SearchBar(onClick ={}, inputKey = "H", modifier = Modifier.fillMaxWidth())
+//        }
+//
+//    }
+//
+//}

@@ -4,8 +4,11 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.graphics.Paint.Align
 import android.icu.util.Calendar
+import android.os.Build
+import android.util.Log
 import android.widget.Button
 import android.widget.DatePicker
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -41,12 +44,17 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.taskapp.model.Task
 import com.example.taskapp.model.TaskType
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Date
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TaskForm(navigateUp:()->Unit){
+fun TaskForm(onClick:(Task)->Unit,task: Task?, navigateUp:()->Unit){
     val mContext = LocalContext.current
     val mCalendar = Calendar.getInstance()
     // Declaring integer values
@@ -63,32 +71,32 @@ fun TaskForm(navigateUp:()->Unit){
 
     mCalendar.time = Date()
 
-    var date by remember { mutableStateOf<String>("") }
+    var date by remember { mutableStateOf<String>(task?.date?.substring(0,10) ?:"") }
 
     // Declaring DatePickerDialog and setting
     // initial values as current values (present year, month and day)
     val mDatePickerDialog = DatePickerDialog(
         mContext,
         { _: DatePicker, mYear: Int, mMonth: Int, mDayOfMonth: Int ->
-            date = "$mDayOfMonth/${mMonth+1}/$mYear"
+            date = "$mYear-${mMonth+1}-$mDayOfMonth"
         }, mYear, mMonth, mDay
     )
 
-    var time by remember { mutableStateOf<String>("") }
+    var time by remember { mutableStateOf<String>(task?.date?.substring(11,16)?:"") }
 
     // Creating a TimePicker dialod
     val mTimePickerDialog = TimePickerDialog(
         mContext,
         {_, mHour : Int, mMinute: Int ->
-            time = "$mHour:$mMinute"
+            time = "${mHour.toString().padStart(2,'0')}:${mMinute.toString().padStart(2,'0')}"
         }, mHour, mMinute, false
     )
 
-    var title by remember { mutableStateOf<String>("") }
-    var desc by remember { mutableStateOf<String>("") }
+    var title by remember { mutableStateOf<String>(task?.title?:"") }
+    var desc by remember { mutableStateOf<String>(task?.description?:"") }
 
-
-    var taskType by remember { mutableStateOf<TaskType>(TaskType.Regular) }
+    var current =if(task?.type=="Regular" || task?.type ==null) TaskType.Regular else TaskType.Important
+    var taskType by remember { mutableStateOf<TaskType>(current) }
     Column(
         verticalArrangement = Arrangement.spacedBy(15.dp)
     ) {
@@ -178,7 +186,31 @@ fun TaskForm(navigateUp:()->Unit){
             OutlinedButton(onClick = { navigateUp() }) {
                 Text(text = "Back")
             }
-            OutlinedButton(onClick = { /*TODO*/ }) {
+            OutlinedButton(onClick = {
+                val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+                val parsedDate=LocalDateTime.parse(date+" "+time,dateFormatter)
+
+                // parse date to YYYY:MM:DD hh:mm:ss Format
+                val dateBuilder = StringBuilder()
+                dateBuilder.append(parsedDate.year).append("-").append(parsedDate.monthValue.toString().padStart(2,'0')).append("-").append(parsedDate.dayOfMonth.toString().padStart(2,'0'))
+                    .append(" ").append(parsedDate.hour.toString().padStart(2,'0')).append(":").append(parsedDate.minute.toString().padStart(2,'0')).append(":").append("00")
+
+                val inputDate = dateBuilder.toString()
+                val inputTitle= title.trim()
+                val inputDescription=desc.trim()
+                val inputdate=dateBuilder.toString()
+                val inputType=if(taskType ==TaskType.Important) "Important" else "Regular"
+                Log.d("inputDate",inputDate.toString())
+                Log.d("inputType",inputType)
+                val inputTask =Task(
+                    id = task?.id ?:0,
+                    title=inputTitle,
+                    description = inputDescription,
+                    date = inputdate,
+                    type = inputType
+                )
+                onClick(inputTask)
+            }) {
                 Text(text = "Submit")
             }
         }
@@ -188,14 +220,14 @@ fun TaskForm(navigateUp:()->Unit){
 
 
 
-
-@Preview(showBackground = true)
-@Composable
-fun TaskFormPreview(){
-    Column(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        TaskForm(navigateUp = {})
-    }
-
-}
+//
+//@Preview(showBackground = true)
+//@Composable
+//fun TaskFormPreview(){
+//    Column(
+//        modifier = Modifier.fillMaxSize()
+//    ) {
+//        TaskForm(navigateUp = {})
+//    }
+//
+//}

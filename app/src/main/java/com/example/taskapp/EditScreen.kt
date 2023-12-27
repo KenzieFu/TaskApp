@@ -11,15 +11,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
+import com.example.taskapp.model.Task
 import com.example.taskapp.ui.util.TaskForm
 
 @Composable
-fun EditScreen(navigateUp:()->Unit,modifier:Modifier){
+fun EditScreen(editTask:(Task?)->Unit,task: Task?, navigateUp:()->Unit, modifier:Modifier){
     Column(
         modifier= modifier.verticalScroll(rememberScrollState())
             .background(colorResource(R.color.pale_orange)).fillMaxSize()
             .padding(15.dp, 15.dp)
     ) {
-        TaskForm(navigateUp=navigateUp)
+        TaskForm(onClick=editTask,task=task,navigateUp=navigateUp)
     }
 }

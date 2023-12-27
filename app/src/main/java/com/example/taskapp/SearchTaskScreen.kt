@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.stringResource
@@ -19,10 +20,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.taskapp.model.Task
 import com.example.taskapp.ui.util.TaskItemCard
 
 @Composable
-fun SearchTaskScreen(clickItemDetail:()->Unit,modifier:Modifier){
+fun SearchTaskScreen(searchInput:String,tasks:List<Task>,clickItemDetail:(String)->Unit,modifier:Modifier){
+    var filteredList = tasks.toMutableStateList()
     Column(modifier=modifier .padding(20.dp, 15.dp)) {
         Text(
             stringResource(R.string.list_of_tasks),
@@ -33,8 +36,11 @@ fun SearchTaskScreen(clickItemDetail:()->Unit,modifier:Modifier){
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(15.dp)
         ){
-            items(6){
-                item-> TaskItemCard(modifier = Modifier.fillMaxWidth().height(110.dp).clickable { clickItemDetail() })
+            items(filteredList.size){
+                item-> TaskItemCard(task= filteredList[item],
+                modifier = Modifier.fillMaxWidth().height(110.dp)
+                    .clickable { clickItemDetail(tasks[item].id
+                .toString()) })
             }
         }
     }
