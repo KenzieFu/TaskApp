@@ -267,7 +267,7 @@ private fun TopTaskBar(navigateToCreate:()->Unit,
                     Icon(
                         modifier = Modifier.size(36.dp),
                         tint = Color.Black,
-                        painter = painterResource(R.drawable.notification),
+                        painter = painterResource(R.drawable.add),
                         contentDescription = stringResource(
                             id = R.string.notif_button
                         ),

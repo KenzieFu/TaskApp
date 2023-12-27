@@ -40,9 +40,10 @@ import com.example.taskapp.ui.util.BoxInfo
 
 @Composable
 fun TaskDetailScreen(deleteTask:()->Unit,navigateToEdit:(String)->Unit,task: Task?, modifier:Modifier){
+    var colorBa = if(task?.type == "Regular" ) R.color.pale_orange else R.color.reddish
     Column(
-        modifier=modifier
-            .background(colorResource(R.color.pale_orange))
+        modifier= modifier
+            .background(colorResource(colorBa))
             .padding(15.dp, 15.dp)
 
     ){
@@ -71,6 +72,13 @@ fun TaskDetailScreen(deleteTask:()->Unit,navigateToEdit:(String)->Unit,task: Tas
             BoxInfo(content = task!!.date.substring(11,16), icon = R.drawable.clock, modifier =Modifier )
             Spacer(modifier = Modifier.width(10.dp))
             BoxInfo(content = task.date.substring(0,10), icon =R.drawable.date , modifier =Modifier )
+            Spacer(modifier = Modifier.width(10.dp))
+            if(task.type == "Important")
+            Icon(
+                tint =Color.Black,
+                painter = painterResource(R.drawable.important),
+                modifier=Modifier.size(40.dp),
+                contentDescription =null )
         }
         Spacer(modifier = Modifier.height(10.dp))
       TextButton(

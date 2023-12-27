@@ -29,9 +29,10 @@ import com.example.taskapp.model.Task
 
 @Composable
 fun TaskItemCard(task: Task, modifier: Modifier){
+    var colorBa = if(task.type == "Regular") R.color.aqua else  R.color.reddish
     Card(modifier=modifier) {
         Column(modifier= modifier
-            .background(colorResource(R.color.aqua))
+            .background(colorResource(colorBa))
             .padding(15.dp),
             verticalArrangement = Arrangement.SpaceBetween
             ) {
@@ -40,7 +41,12 @@ fun TaskItemCard(task: Task, modifier: Modifier){
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
                 )
-            TimeTask(time = task.date.substring(11,16),Modifier)
+            Row {
+                TimeTask(time = task.date.substring(11,16),Modifier)
+                Spacer(modifier = Modifier.width(20.dp))
+                BoxInfo(content =task.date.substring(0,11) , icon =R.drawable.date , modifier =Modifier )
+            }
+
         }
 
         
